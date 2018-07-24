@@ -21,7 +21,7 @@
 
   <PropertyGroup>
     <Description>A thread-safe implementation of the .NET IDisposable pattern.</Description>
-    <TargetFrameworks>netstandard1.0;net40</TargetFrameworks>
+    <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
