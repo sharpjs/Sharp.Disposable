@@ -16,6 +16,7 @@
 
 using System;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 
 namespace Sharp.Disposable.Tests
@@ -74,14 +75,19 @@ namespace Sharp.Disposable.Tests
                 .Should().Throw<ObjectDisposedException>();
         }
 
-        private static DisposablePool AddObjectsToPool(IDisposable objA, IDisposable objB)
+        [Test]
+        public void Dispose_Exception()
         {
+            var objA = new Mock<IDisposable>(MockBehavior.Strict);
+
+            objA.Setup(o => o.Dispose()).Throws<InvalidOperationException>();
+
             var pool = new DisposablePool();
+            pool.AddDisposable(objA.Object);
 
-            pool.AddDisposable(objA, managed: true ).Should().BeSameAs(objA);
-            pool.AddDisposable(objB, managed: false).Should().BeSameAs(objB);
+            pool.Dispose();
 
-            return pool;
+            objA.Verify();
         }
     }
 }
