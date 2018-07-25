@@ -1,6 +1,6 @@
 # Sharp.Disposable
 
-A thread-safe implementation of the [.NET Dispose Pattern](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/dispose-pattern), plus extras.
+Thread-safe implementation of the [.NET Dispose Pattern](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/dispose-pattern), plus extras.
 
 ## Status
 
