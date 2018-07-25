@@ -20,7 +20,7 @@
   <Import Project="..\Local.props" Condition="Exists('..\Local.props')" />
 
   <PropertyGroup>
-    <Description>A thread-safe implementation of the .NET IDisposable pattern.</Description>
+    <Description>Thread-safe implementation of the .NET Dispose Pattern</Description>
     <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
