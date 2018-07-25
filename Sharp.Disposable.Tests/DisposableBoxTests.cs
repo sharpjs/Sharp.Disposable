@@ -344,6 +344,19 @@ namespace Sharp.Disposable.Tests
                 box.Object .Should().BeNull();
                 box.IsOwned.Should().BeFalse(); // null can't be owned
             }
+
+            obj.IsDisposed.Should().BeFalse();
+        }
+
+        [Test]
+        public void Clear_Disposed()
+        {
+            var obj = new TestDisposable();
+            var box = new DisposableBox<TestDisposable>();
+            box.Dispose();
+
+            box.Invoking(b => b.Clear())
+                .Should().Throw<ObjectDisposedException>();
         }
 
         [Test]
@@ -371,6 +384,8 @@ namespace Sharp.Disposable.Tests
                 box.Object .Should().BeNull();
                 box.IsOwned.Should().BeFalse(); // null can't be owned
             }
+
+            obj.IsDisposed.Should().BeFalse();
         }
 
         [Test]
@@ -386,6 +401,73 @@ namespace Sharp.Disposable.Tests
                 box.Object .Should().BeNull();
                 box.IsOwned.Should().BeFalse(); // null can't be owned
             }
+
+            obj.IsDisposed.Should().BeFalse();
+        }
+
+        [Test]
+        public void Take_Disposed()
+        {
+            var obj = new TestDisposable();
+            var box = new DisposableBox<TestDisposable>();
+            box.Dispose();
+
+            box.Invoking(b => b.Take())
+                .Should().Throw<ObjectDisposedException>();
+        }
+
+        [Test]
+        public void Dispose_Null()
+        {
+            var box = new DisposableBox<TestDisposable>(null);
+
+            box.Dispose();
+
+            box.Invoking(b => { var _ = b.Object;  }).Should().Throw<ObjectDisposedException>();
+            box.Invoking(b => { var _ = b.IsOwned; }).Should().Throw<ObjectDisposedException>();
+        }
+
+        [Test]
+        public void Dispose_Owned()
+        {
+            var obj = new TestDisposable();
+            var box = new DisposableBox<TestDisposable>(obj);
+
+            box.Dispose();
+
+            box.Invoking(b => { var _ = b.Object;  }).Should().Throw<ObjectDisposedException>();
+            box.Invoking(b => { var _ = b.IsOwned; }).Should().Throw<ObjectDisposedException>();
+
+            obj.IsDisposed.Should().BeTrue();
+        }
+
+        [Test]
+        public void Dispose_Owned_Twice()
+        {
+            var obj = new TestDisposable();
+            var box = new DisposableBox<TestDisposable>(obj);
+
+            box.Dispose();
+            box.Dispose();
+
+            box.Invoking(b => { var _ = b.Object;  }).Should().Throw<ObjectDisposedException>();
+            box.Invoking(b => { var _ = b.IsOwned; }).Should().Throw<ObjectDisposedException>();
+
+            obj.IsDisposed.Should().BeTrue();
+        }
+
+        [Test]
+        public void Dispose_NotOwned()
+        {
+            var obj = new TestDisposable();
+            var box = new DisposableBox<TestDisposable>(obj, owned: false);
+
+            box.Dispose();
+
+            box.Invoking(b => { var _ = b.Object;  }).Should().Throw<ObjectDisposedException>();
+            box.Invoking(b => { var _ = b.IsOwned; }).Should().Throw<ObjectDisposedException>();
+
+            obj.IsDisposed.Should().BeFalse();
         }
     }
 }
