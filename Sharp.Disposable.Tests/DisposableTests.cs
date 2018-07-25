@@ -23,41 +23,28 @@ namespace Sharp.Disposable.Tests
     [TestFixture]
     public class DisposableTests
     {
-        private class TestDisposable : Disposable
-        {
-            public bool? DisposedManaged { get; set; }
-
-            protected override bool Dispose(bool managed)
-            {
-                DisposedManaged = managed;
-                if (!managed) FinalizerRan = true;
-                return base.Dispose(managed);
-            }
-
-            public new void RequireNotDisposed()
-                => base.RequireNotDisposed();
-        }
-
-        private static bool FinalizerRan;
-
-        [Test]
-        public void Finalizer()
-        {
-            new WeakReference<TestDisposable>(new TestDisposable());
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            FinalizerRan.Should().BeTrue();
-        }
-
         [Test]
         public void Dispose()
         {
-            var obj = new TestDisposable();
-            obj.DisposedManaged.Should().NotHaveValue();
+            var obj   = new TestDisposable();
+            var state = obj.DisposalState;
+
+            state.IsDisposed.Should().BeFalse();
 
             obj.Dispose();
 
-            obj.DisposedManaged.Should().BeTrue();
+            state.IsDisposed .Should().BeTrue();
+            state.IsFinalized.Should().BeFalse();
+        }
+
+        [Test]
+        public void FinalizeMethod()
+        {
+            var state = TestDisposable.CreateFinalizable();
+
+            Finalizer.RunUntil(() => state.IsDisposed);
+
+            state.IsFinalized.Should().BeTrue();
         }
 
         [Test]
@@ -72,6 +59,7 @@ namespace Sharp.Disposable.Tests
         public void IsDisposed_True()
         {
             var obj = new TestDisposable();
+
             obj.Dispose();
 
             obj.IsDisposed.Should().BeTrue();
@@ -89,6 +77,7 @@ namespace Sharp.Disposable.Tests
         public void RequireNotDisposed_Throw()
         {
             var obj = new TestDisposable();
+
             obj.Dispose();
 
             obj.Invoking(o => o.RequireNotDisposed())
