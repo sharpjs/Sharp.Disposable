@@ -23,8 +23,6 @@ namespace Sharp.Disposable.Tests
     [TestFixture]
     public class DisposablePoolTests
     {
-        private class TestDisposable : Disposable { }
-
         [Test]
         public void AddDisposable_Null()
         {
@@ -58,17 +56,14 @@ namespace Sharp.Disposable.Tests
 
             pool.AddDisposable(objA, managed: true ).Should().BeSameAs(objA);
             pool.AddDisposable(objB, managed: false).Should().BeSameAs(objB);
+            pool.DisposeUnmanaged(); // simulates finalizer
 
-            // This simulates a finalizer call.  We tried using GC methods to
-            // really make the finalizer run, but it wasn't realiable.
-            pool.DisposeUnmanaged();
-
-            objA.IsDisposed.Should().BeFalse(); // unmanaged disposal does not dispose managed resources
+            objA.IsDisposed.Should().BeFalse(); // finalizer does not dispose managed resources
             objB.IsDisposed.Should().BeTrue();
         }
 
         [Test]
-        public void Dispose_ThenAddDisposable()
+        public void AddDisposable_Disposed()
         {
             var objA = new TestDisposable();
             var pool = new DisposablePool();
