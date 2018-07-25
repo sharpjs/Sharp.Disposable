@@ -40,20 +40,8 @@ namespace Sharp.Disposable
     /// </remarks>
     public class DisposablePool : Disposable
     {
-        private readonly struct Entry
-        {
-            public readonly WeakReference<IDisposable> Reference;
-            public readonly bool                       IsManaged;
-
-            public Entry(IDisposable obj, bool isManaged)
-            {
-                Reference = new WeakReference<IDisposable>(obj);
-                IsManaged = isManaged;
-            }
-        }
-
-        private readonly ConcurrentBag<Entry>
-            _disposables = new ConcurrentBag<Entry>();
+        private readonly ConcurrentBag<WeakReference<IDisposable>>
+            _disposables = new ConcurrentBag<WeakReference<IDisposable>>();
 
         /// <summary>
         ///   Registers the specified object to be disposed when the pool
@@ -65,45 +53,36 @@ namespace Sharp.Disposable
         /// <param name="obj">
         ///   The object to be disposed.
         /// </param>
-        /// <param name="managed">
-        ///   <c>true</c> if <paramref name="obj"/> represents a managed
-        ///     resource (like a <c>SqlConnection</c>) that should be disposed
-        ///     during managed disposal (<c>IDisposable.Dispose</c>) only;
-        ///   <c>false</c> if <paramref name="obj"/> represents an unmanaged
-        ///     resource (like a temporary file) that should be disposed in all
-        ///     disposal scenarios.
-        /// </param>
         /// <returns>
         ///   <paramref name="obj"/>, unchanged.
         /// </returns>
-        public T AddDisposable<T>(T obj, bool managed = true)
+        public T AddDisposable<T>(T obj)
             where T : IDisposable
         {
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
 
             RequireNotDisposed();
-            _disposables.Add(new Entry(obj, managed));
+            _disposables.Add(new WeakReference<IDisposable>(obj));
             return obj;
         }
 
         /// <inheritdoc/>
         protected override bool Dispose(bool managed)
         {
+            // Check if already disposed
             if (!base.Dispose(managed))
-                // Already disposed
                 return false;
 
+            // Check if performing an unmanaged disposal
+            if (!managed)
+                return true;
+
+            // Dispose contained objects
             while (_disposables.TryTake(out var disposable))
             {
-                // Check if this disposal should include the object.
-                // *   managed disposal => dispose everything
-                // * unmanaged disposal => dispose unmanaged resources only
-                if (!managed && disposable.IsManaged)
-                    continue;
-
                 // Check if object was garbage-collected already
-                if (!disposable.Reference.TryGetTarget(out var obj))
+                if (!disposable.TryGetTarget(out var obj))
                     continue;
 
                 // Make best effort to dispose, but ignore errors arising from it

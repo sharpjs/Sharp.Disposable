@@ -34,14 +34,26 @@ namespace Sharp.Disposable.Tests
         }
 
         [Test]
+        public void AddDisposable_Disposed()
+        {
+            var objA = new TestDisposable();
+            var pool = new DisposablePool();
+
+            pool.Dispose();
+
+            pool.Invoking(p => p.AddDisposable(objA))
+                .Should().Throw<ObjectDisposedException>();
+        }
+
+        [Test]
         public void AddDisposable_ThenDispose()
         {
             var objA = new TestDisposable();
             var objB = new TestDisposable();
             var pool = new DisposablePool();
 
-            pool.AddDisposable(objA, managed: true ).Should().BeSameAs(objA);
-            pool.AddDisposable(objB, managed: false).Should().BeSameAs(objB);
+            pool.AddDisposable(objA).Should().BeSameAs(objA);
+            pool.AddDisposable(objB).Should().BeSameAs(objB);
             pool.Dispose();
 
             objA.IsDisposed.Should().BeTrue();
@@ -55,31 +67,19 @@ namespace Sharp.Disposable.Tests
             var objB = new TestDisposable();
             var pool = new DisposablePool();
 
-            pool.AddDisposable(objA, managed: true ).Should().BeSameAs(objA);
-            pool.AddDisposable(objB, managed: false).Should().BeSameAs(objB);
-            pool.DisposeUnmanaged(); // simulates finalizer
+            pool.AddDisposable(objA).Should().BeSameAs(objA);
+            pool.AddDisposable(objB).Should().BeSameAs(objB);
+            pool.DisposeUnmanaged(); // simulate finalizer
 
-            objA.IsDisposed.Should().BeFalse(); // finalizer does not dispose managed resources
-            objB.IsDisposed.Should().BeTrue();
-        }
-
-        [Test]
-        public void AddDisposable_Disposed()
-        {
-            var objA = new TestDisposable();
-            var pool = new DisposablePool();
-
-            pool.Dispose();
-
-            pool.Invoking(p => p.AddDisposable(objA))
-                .Should().Throw<ObjectDisposedException>();
+            // Does not dispose managed resources during finalization
+            objA.IsDisposed.Should().BeFalse();
+            objB.IsDisposed.Should().BeFalse();
         }
 
         [Test]
         public void Dispose_Exception()
         {
             var objA = new Mock<IDisposable>(MockBehavior.Strict);
-
             objA.Setup(o => o.Dispose()).Throws<InvalidOperationException>();
 
             var pool = new DisposablePool();
