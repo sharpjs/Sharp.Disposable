@@ -23,8 +23,6 @@ namespace Sharp.Disposable.Tests
     [TestFixture]
     public class DisposableBoxTests
     {
-        public class TestDisposable : Disposable { }
-
         [Test]
         public void Construct_Default()
         {
@@ -304,6 +302,90 @@ namespace Sharp.Disposable.Tests
 
             box.Invoking(b => b.Set(obj, owned: false))
                 .Should().Throw<ObjectDisposedException>();
+        }
+
+        [Test]
+        public void Clear_Null()
+        {
+            using (var box = new DisposableBox<TestDisposable>())
+            {
+                box.Clear();
+
+                box.Object .Should().BeNull();
+                box.IsOwned.Should().BeFalse(); // null can't be owned
+            }
+        }
+
+        [Test]
+        public void Clear_Owned()
+        {
+            var obj = new TestDisposable();
+
+            using (var box = new DisposableBox<TestDisposable>(obj))
+            {
+                box.Clear();
+                obj.IsDisposed.Should().BeTrue();
+
+                box.Object .Should().BeNull();
+                box.IsOwned.Should().BeFalse(); // null can't be owned
+            }
+        }
+
+        [Test]
+        public void Clear_NotOwned()
+        {
+            var obj = new TestDisposable();
+
+            using (var box = new DisposableBox<TestDisposable>(obj, owned: false))
+            {
+                box.Clear();
+                obj.IsDisposed.Should().BeFalse();
+
+                box.Object .Should().BeNull();
+                box.IsOwned.Should().BeFalse(); // null can't be owned
+            }
+        }
+
+        [Test]
+        public void Take_Null()
+        {
+            using (var box = new DisposableBox<TestDisposable>())
+            {
+                box.Take().Should().BeNull();
+
+                box.Object .Should().BeNull();
+                box.IsOwned.Should().BeFalse(); // null can't be owned
+            }
+        }
+
+        [Test]
+        public void Take_Owned()
+        {
+            var obj = new TestDisposable();
+
+            using (var box = new DisposableBox<TestDisposable>(obj))
+            {
+                box.Take().Should().BeSameAs(obj);
+                obj.IsDisposed.Should().BeFalse();
+
+                box.Object .Should().BeNull();
+                box.IsOwned.Should().BeFalse(); // null can't be owned
+            }
+        }
+
+        [Test]
+        public void Take_NotOwned()
+        {
+            var obj = new TestDisposable();
+
+            using (var box = new DisposableBox<TestDisposable>(obj, owned: false))
+            {
+                box.Take().Should().BeSameAs(obj);
+                obj.IsDisposed.Should().BeFalse();
+
+                box.Object .Should().BeNull();
+                box.IsOwned.Should().BeFalse(); // null can't be owned
+            }
         }
     }
 }
