@@ -133,12 +133,15 @@ namespace Sharp.Disposable
         /// <inheritdoc/>
         protected override bool Dispose(bool managed = true)
         {
+            // Check if already disposed
             if (!base.Dispose(managed))
-                return false; // Already disposed
+                return false;
 
+            // Dispose held object if necessary
             if (managed && _owned)
                 _obj.Dispose();
 
+            // Clear
             _obj   = null;
             _owned = false;
             return true;
