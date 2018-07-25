@@ -38,6 +38,21 @@ namespace Sharp.Disposable.Tests
         }
 
         [Test]
+        public void Dispose_Multiple()
+        {
+            var obj   = new TestDisposable();
+            var state = obj.DisposalState;
+
+            state.IsDisposed.Should().BeFalse();
+
+            obj.Dispose();
+            obj.Dispose();
+
+            state.IsDisposed .Should().BeTrue();
+            state.IsFinalized.Should().BeFalse();
+        }
+
+        [Test]
         public void FinalizeMethod()
         {
             var state = TestDisposable.CreateFinalizable();
