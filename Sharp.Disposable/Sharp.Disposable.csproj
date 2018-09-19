@@ -22,7 +22,7 @@
   <PropertyGroup>
     <Description>Thread-safe implementation of the .NET Dispose Pattern</Description>
     <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>$(VersionIsTagged)</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
