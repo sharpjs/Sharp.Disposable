@@ -35,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <DotNetCliToolReference Include="JetBrains.dotCover.CommandLineTools" Version="2018.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Sharp.Disposable\Sharp.Disposable.csproj" />
   </ItemGroup>
 
