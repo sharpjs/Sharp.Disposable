@@ -9,13 +9,13 @@
     * In Local.props, to set assembly and nupkg versions
     * As console output, to set the TeamCity build number
 
-    Version      Branch            Counter  =>  Version             FileVersion
-    ===========  ================  =======      ==================  ===========
-    1.2.3-local  (none)             (none)  =>  1.2.3-local         1.2.3.43210 (time-based)
-    1.2.3-local  stuff                 789  =>  1.2.3-stuff-b789    1.2.3.789
-    1.2.3-local  pull/456              789  =>  1.2.3-pr456-b789    1.2.3.789
-    1.2.3-local  release/1.2.3-rc      789  =>  1.2.3-rc            1.2.3.789
-    1.2.3-local  release/2.3.4-rc      789  =>  *ERROR*             *ERROR*
+    Code Version  -Branch    -Counter  =>  Version             FileVersion
+    ============  =========  ========      ==================  ===========
+    1.2.3-local   (none)       (none)  =>  1.2.3-local         1.2.3.43210 (time-based)
+    1.2.3-local   stuff           789  =>  1.2.3-stuff-b789    1.2.3.789
+    1.2.3-local   456             789  =>  1.2.3-pr456-b789    1.2.3.789
+    1.2.3-local   v1.2.3-rc       789  =>  1.2.3-rc            1.2.3.789
+    1.2.3-local   v2.3.4-rc       789  =>  *ERROR*             *ERROR*
 
 .NOTES
     Copyright (C) 2018 Jeffrey Sharp
@@ -58,7 +58,7 @@ $PullRequestRegex = [regex] '(?nx)
 # https://semver.org/spec/v1.0.0.html
 $VersionRegex = [regex] '(?nx)
     ^
-    ( release/ )?
+    ( release/ | v )?
     (?<VersionFull>
         (?<Version>
             ( 0 | [1-9][0-9]* ) \.
