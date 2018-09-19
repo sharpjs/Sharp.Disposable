@@ -16,7 +16,7 @@
 
 using System;
 
-#if NETFX
+#if NETFRAMEWORK
 using System.Threading;
 #elif NETSTANDARD
 using System.Threading.Tasks;
@@ -88,7 +88,7 @@ namespace Sharp.Disposable
 
             while (!condition())
             {
-#if NETFX
+#if NETFRAMEWORK
                 Thread.Sleep(interval);
 #elif NETSTANDARD
                 Task.Delay(interval).Wait();

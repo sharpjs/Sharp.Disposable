@@ -17,14 +17,14 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-#if NETFX
+#if NETFRAMEWORK
 using System.Security;
 #endif
 
 // COM Compliance
 [assembly: ComVisible(false)]
 
-#if NETFX
+#if NETFRAMEWORK
 // Security
 [assembly: SecurityRules(SecurityRuleSet.Level2)]
 #endif
