@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project>
 
   <!--
     Copyright (C) 2018 Jeffrey Sharp
@@ -16,19 +16,19 @@
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
   -->
 
-  <Import Project="..\General.props" />
-  <Import Project="..\Local.props" Condition="Exists('..\Local.props')" />
-
-  <PropertyGroup>
-    <Description>Thread-safe implementation of the .NET Dispose Pattern</Description>
-    <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
-    <GeneratePackageOnBuild>$(VersionIsTagged)</GeneratePackageOnBuild>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('netstandard'))">
+    <PackageReference Include="InheritDoc" Version="[2.0.0]">
+      <ExcludeAssets>all</ExcludeAssets>
+    </PackageReference>
   </ItemGroup>
 
-  <Import Project="..\InheritDoc.targets" />
+  <Target
+    Name="InheritDoc"
+    AfterTargets="CopyFilesToOutputDirectory"
+    Condition="'$(_DocumentationFileProduced)'=='true'">
+    <Exec
+      Command="$(NuGetPackageRoot)inheritdoc\2.0.0\tools\InheritDoc.exe -o"
+      WorkingDirectory="$(OutDir)" />
+  </Target>
 
 </Project>
