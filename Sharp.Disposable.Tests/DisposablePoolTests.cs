@@ -61,6 +61,29 @@ namespace Sharp.Disposable.Tests
         }
 
         [Test]
+        public void AddDisposable_Collect_ThenDispose()
+        {
+            var pool = new DisposablePool();
+
+            (var refA, var refB) = AddGarbageToPool(pool);
+
+            Finalizer.RunUntil(() => !refA.IsAlive && !refB.IsAlive);
+
+            pool.Dispose();
+        }
+
+        private (WeakReference, WeakReference) AddGarbageToPool(DisposablePool pool)
+        {
+            var objA = new TestDisposable();
+            var objB = new TestDisposable();
+
+            pool.AddDisposable(objA);
+            pool.AddDisposable(objB);
+
+            return (new WeakReference(objA), new WeakReference(objB));
+        }
+
+        [Test]
         public void AddDisposable_ThenFinalize()
         {
             var objA = new TestDisposable();
