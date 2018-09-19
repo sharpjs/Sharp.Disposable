@@ -21,7 +21,7 @@
 
   <PropertyGroup>
     <Description>Test suite for Sharp.Disposable</Description>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFrameworks>net472;netcoreapp2.1</TargetFrameworks>
     <RootNamespace>Sharp.Disposable</RootNamespace>
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
