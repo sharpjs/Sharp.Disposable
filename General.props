@@ -21,7 +21,8 @@
     <Version>1.0.0-local</Version>
     <Authors>Jeffrey Sharp</Authors>
     <Copyright>Copyright 2018 Jeffrey Sharp</Copyright>
-    <PackageLicenseUrl>https://github.com/sharpjs/Sharp.Disposable/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageLicenseExpression>ISC</PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/sharpjs/Sharp.Disposable</PackageProjectUrl>
     <PackageTags>Dispose Disposable IDisposable</PackageTags>
     <PackageReleaseNotes>Release notes are available at:
@@ -34,5 +35,9 @@ https://github.com/sharpjs/Sharp.Disposable/releases
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <PackageOutputPath>..\dist\</PackageOutputPath>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(GeneratePackageOnBuild)'=='true'">
+    <None Include="..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
+  </ItemGroup>
 
 </Project>
