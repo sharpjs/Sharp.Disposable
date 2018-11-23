@@ -22,7 +22,6 @@
     <Authors>Jeffrey Sharp</Authors>
     <Copyright>Copyright 2018 Jeffrey Sharp</Copyright>
     <PackageLicenseExpression>ISC</PackageLicenseExpression>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/sharpjs/Sharp.Disposable</PackageProjectUrl>
     <PackageTags>Dispose Disposable IDisposable</PackageTags>
     <PackageReleaseNotes>Release notes are available at:
