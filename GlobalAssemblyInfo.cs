@@ -31,6 +31,3 @@ using System.Security;
 
 // Visibility
 [assembly: InternalsVisibleTo("Sharp.Disposable.Tests")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-                            // ^^^^^^^^^^^^^^^^^^^^^^^^
-                            // Required for Moq to mock a class with an internal abstract method.
