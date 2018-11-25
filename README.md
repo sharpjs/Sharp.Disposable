@@ -4,7 +4,7 @@ Thread-safe implementation of the [.NET Dispose Pattern](https://docs.microsoft.
 
 ## Status
 
-**Private Beta Testing.**
+In limited production use.  100% test coverage.
 
 ## Overview
 
