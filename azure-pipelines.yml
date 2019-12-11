@@ -12,5 +12,9 @@ pool:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
+    command: 'restore'
+    projects: '*.sln'
+- task: DotNetCoreCLI@2
+  inputs:
     command: 'build'
     projects: 'Sharp.Disposable/Sharp.Disposable.csproj'
