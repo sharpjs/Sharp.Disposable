@@ -65,3 +65,9 @@ steps:
     testRunTitle: netcoreapp3.1
     workingDirectory: Sharp.Disposable.Tests
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
+
+- task: PowerShell@2
+  displayName: Coverage Report
+  inputs:
+    filePath: Make.ps1
+    arguments: -MergeCoverage
