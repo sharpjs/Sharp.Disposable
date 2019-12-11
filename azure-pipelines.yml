@@ -58,7 +58,7 @@ steps:
       --dcAttributeFilters=System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute
       test
       --framework:netcoreapp3.1
-      --configuration:Release'
+      --configuration:Release
     nobuild: true
     testRunTitle: netcoreapp3.1
     workingDirectory: Sharp.Disposable.Tests
