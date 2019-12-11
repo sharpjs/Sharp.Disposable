@@ -31,7 +31,7 @@ https://github.com/sharpjs/Sharp.Disposable/releases
   </PropertyGroup>
 
   <PropertyGroup>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <PackageOutputPath>..\dist\</PackageOutputPath>
   </PropertyGroup>
