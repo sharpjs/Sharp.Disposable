@@ -21,6 +21,7 @@ steps:
     projects: '*.sln'
     verbosityRestore: Minimal
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 1 }
+
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
@@ -28,6 +29,7 @@ steps:
     projects: '*.sln'
     arguments: --configuration:Release
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
+
 - task: DotNetCoreCLI@2
   displayName: Tests (net45)
   inputs:
@@ -44,6 +46,7 @@ steps:
     testRunTitle: net45
     workingDirectory: Sharp.Disposable.Tests
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
+
 - task: DotNetCoreCLI@2
   displayName: Tests (netstandard1.1)
   inputs:
