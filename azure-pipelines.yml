@@ -31,35 +31,35 @@ steps:
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
 
 - task: DotNetCoreCLI@2
-  displayName: Tests (net45)
+  displayName: Tests (net48)
   inputs:
     command: custom
     custom: dotcover
     arguments: >
-      --dcOutput=..\coverage\net45.dcvr
+      --dcOutput=..\coverage\net48.dcvr
       --dcFilters=+:Sharp.Disposable;+:Sharp.Disposable.*;-:*.Tests
       --dcAttributeFilters=System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute
       test
-      --framework:net45
+      --framework:net48
       --configuration:Release
     nobuild: true
-    testRunTitle: net45
+    testRunTitle: net48
     workingDirectory: Sharp.Disposable.Tests
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
 
 - task: DotNetCoreCLI@2
-  displayName: Tests (netstandard1.1)
+  displayName: Tests (netcoreapp3.1)
   inputs:
     command: custom
     custom: dotcover
     arguments: >
-      --dcOutput=..\coverage\netstandard1.1.dcvr
+      --dcOutput=..\coverage\netcoreapp3.1.dcvr
       --dcFilters=+:Sharp.Disposable;+:Sharp.Disposable.*;-:*.Tests
       --dcAttributeFilters=System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute
       test
-      --framework:netstandard1.1
+      --framework:netcoreapp3.1
       --configuration:Release'
     nobuild: true
-    testRunTitle: netstandard1.1
+    testRunTitle: netcoreapp3.1
     workingDirectory: Sharp.Disposable.Tests
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
