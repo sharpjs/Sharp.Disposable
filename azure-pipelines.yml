@@ -14,7 +14,9 @@ steps:
   inputs:
     command: 'restore'
     projects: '*.sln'
+  env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
     projects: 'Sharp.Disposable/Sharp.Disposable.csproj'
+  env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
