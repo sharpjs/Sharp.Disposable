@@ -13,14 +13,14 @@ trigger:
 pool:
   vmImage: windows-latest
 
-steps:
-- task: DotNetCoreCLI@2
-  displayName: Restore Packages
-  inputs:
-    command: restore
-    projects: '*.sln'
-    verbosityRestore: Minimal
-  env: { DOTNET_CLI_TELEMETRY_OPTOUT: 1 }
+# steps:
+# - task: DotNetCoreCLI@2
+#   displayName: Restore Packages
+#   inputs:
+#     command: restore
+#     projects: '*.sln'
+#     verbosityRestore: Minimal
+#   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 1 }
 
 - task: DotNetCoreCLI@2
   displayName: Build
