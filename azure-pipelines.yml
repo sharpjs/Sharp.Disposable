@@ -76,7 +76,7 @@ pool:
   displayName: Push NuGet Package
   inputs:
     command: push
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/dist/*.nupkg'
+    packagesToPush: 'dist\*.nupkg'
     nuGetFeedType: internal
     publishVstsFeed: 3b77dcda-0977-4777-b897-54aec427b170
     verbosityPush: Normal
