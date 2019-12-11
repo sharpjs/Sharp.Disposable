@@ -73,6 +73,7 @@ steps:
     arguments: -MergeCoverage
 
 - task: NuGetCommand@2
+  displayName: Push NuGet Package
   inputs:
     command: push
     packagesToPush: '$(Build.ArtifactStagingDirectory)/dist/*.nupkg'
