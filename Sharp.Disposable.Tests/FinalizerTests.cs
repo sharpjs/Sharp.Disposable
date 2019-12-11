@@ -54,11 +54,11 @@ namespace Sharp.Disposable
         }
 
         [Test]
-        [Timeout(1 * 1000 /*ms*/)]
+        [Timeout(5 * 1000 /*ms*/)]
         public void RunUntil_Delayed()
         {
             var done = false;
-            var task = Task.Delay(500.Milliseconds()).ContinueWith(_ => done = true);
+            var task = Task.Delay(50.Milliseconds()).ContinueWith(_ => done = true);
 
             Finalizer.RunUntil(() => done);
         }
