@@ -11,37 +11,52 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: windows-latest
 
 steps:
 - task: DotNetCoreCLI@2
   displayName: Restore Packages
   inputs:
-    command: 'restore'
+    command: restore
     projects: '*.sln'
-    verbosityRestore: 'Minimal'
+    verbosityRestore: Minimal
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 1 }
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    command: 'build'
+    command: build
     projects: '*.sln'
+    arguments: --configuration:Release
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
 - task: DotNetCoreCLI@2
   displayName: Tests (net45)
   inputs:
-    command: 'test'
-    projects: '*.csproj'
-    arguments: '--framework net45'
-    testRunTitle: 'net45'
-    workingDirectory: 'Sharp.Disposable.Tests'
+    command: custom
+    custom: dotcover
+    arguments: >
+      --dcOutput=..\coverage\net45.dcvr
+      --dcFilters=+:Sharp.Disposable;+:Sharp.Disposable.*;-:*.Tests
+      --dcAttributeFilters=System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute
+      test
+      --framework:net45
+      --configuration:Release
+    nobuild: true
+    testRunTitle: net45
+    workingDirectory: Sharp.Disposable.Tests
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
 - task: DotNetCoreCLI@2
   displayName: Tests (netstandard1.1)
   inputs:
-    command: 'test'
-    projects: '*.csproj'
-    arguments: '--framework netstandard1.1'
-    testRunTitle: 'net45'
-    workingDirectory: 'Sharp.Disposable.Tests'
+    command: custom
+    custom: dotcover
+    arguments: >
+      --dcOutput=..\coverage\netstandard1.1.dcvr
+      --dcFilters=+:Sharp.Disposable;+:Sharp.Disposable.*;-:*.Tests
+      --dcAttributeFilters=System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute
+      test
+      --framework:netstandard1.1
+      --configuration:Release'
+    nobuild: true
+    testRunTitle: netstandard1.1
+    workingDirectory: Sharp.Disposable.Tests
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
