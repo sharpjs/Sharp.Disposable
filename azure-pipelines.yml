@@ -71,3 +71,11 @@ steps:
   inputs:
     filePath: Make.ps1
     arguments: -MergeCoverage
+
+- task: NuGetCommand@2
+  inputs:
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/dist/*.nupkg'
+    nuGetFeedType: internal
+    publishVstsFeed: 3b77dcda-0977-4777-b897-54aec427b170
+    verbosityPush: Normal
