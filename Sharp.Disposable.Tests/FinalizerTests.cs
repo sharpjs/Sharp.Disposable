@@ -46,24 +46,15 @@ namespace Sharp.Disposable
                 .Should().Throw<ArgumentOutOfRangeException>();
         }
 
-        // As of 2018-09-19, NUnit still hasn't implemented TimeoutAttribute
-        // for the netcoreapp target.
-        //
-        // https://github.com/nunit/nunit/issues/1638
-
         [Test]
-#if NETFRAMEWORK
         [Timeout(1 * 1000 /*ms*/)]
-#endif
         public void RunUntil_Immediate()
         {
             Finalizer.RunUntil(() => true);
         }
 
         [Test]
-#if NETFRAMEWORK
         [Timeout(1 * 1000 /*ms*/)]
-#endif
         public void RunUntil_Delayed()
         {
             var done = false;
