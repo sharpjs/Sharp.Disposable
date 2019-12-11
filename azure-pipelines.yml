@@ -30,6 +30,20 @@ pool:
     arguments: --configuration:Release
   env: { DOTNET_CLI_TELEMETRY_OPTOUT: 0 }
 
+- task: VSTest@2
+  displayName: VSTest (net48)
+  inputs:
+    testSelector: testAssemblies
+    testAssemblyVer2: |
+      **\*.Tests.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    testRunTitle: dingus
+    platform: net48
+    configuration: Release
+    codeCoverageEnabled: true
+    runInParallel: true
+
 - task: DotNetCoreCLI@2
   displayName: Tests (net48)
   inputs:
