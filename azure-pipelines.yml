@@ -22,6 +22,8 @@ variables:
   # Use own coverage report; do not generate a new one
   disable.coverage.autogenerate: 'true'
 
+displayName: Build + Test
+
 pool:
   vmImage: windows-latest
 
