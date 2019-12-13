@@ -19,6 +19,9 @@ variables:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
 
+  # Use own coverage report; do not generate a new one
+  disable.coverage.autogenerate: 'true'
+
 pool:
   vmImage: windows-latest
 
