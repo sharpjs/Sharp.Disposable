@@ -56,7 +56,7 @@ jobs:
     displayName: Push NuGet Package
     inputs:
       command: push
-      packagesToPush: dist\*.nupkg
+      packagesToPush: dist\*.nupkg;dist\*.snupkg
       nuGetFeedType: internal
       publishVstsFeed: 3b77dcda-0977-4777-b897-54aec427b170
       verbosityPush: Normal
