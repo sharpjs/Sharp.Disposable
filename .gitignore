@@ -1,7 +1,7 @@
 # Build Products
 obj/
 bin/
-/packages/
+/test/
 /coverage/
 /dist/
 

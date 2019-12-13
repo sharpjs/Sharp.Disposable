@@ -19,9 +19,9 @@ param (
     [Parameter(Mandatory, ParameterSetName="Coverage")]
     [switch] $Coverage,
 
-    # Produce merged code coverage report.
-    [Parameter(Mandatory, ParameterSetName="MergeCoverage")]
-    [switch] $MergeCoverage,
+    # Do not build or run tests.  Produce merged code coverage report only.
+    [Parameter(Mandatory, ParameterSetName="CoverageReportOnly")]
+    [switch] $CoverageReportOnly,
 
     # The configuration to build: Debug or Release.  The default is Debug.
     [Parameter(ParameterSetName="Build")]
@@ -52,61 +52,46 @@ Write-Host -ForegroundColor Cyan @'
 '@
 
 function Main {
-    if (-not $MergeCoverage) {
+    if (-not $CoverageReportOnly) {
         Invoke-Build
     }
 
     if ($Test -or $Coverage) {
-        Set-Location -LiteralPath "$AssemblyNameRoot.Tests"
-        Invoke-TestForTargetFramework net48
-        Invoke-TestForTargetFramework netcoreapp3.1
-        Set-Location ..
+        Invoke-Test
     }
 
-    if ($Coverage -or $MergeCoverage) {
-        Set-Location -LiteralPath coverage
+    if ($Coverage -or $CoverageReportOnly) {
         Export-CoverageReport
-        Set-Location ..
     }
 } 
 
 function Invoke-Build {
     Write-Phase "Build"
-    Invoke-DotNetExe build --configuration $Configuration
+    Invoke-DotNetExe build --configuration:$Configuration
 }
 
-function Invoke-TestForTargetFramework {
-    param (
-        [Parameter(Mandatory)]
-        [string] $TargetFramework
-    )
-
-    Write-Phase "Test: $TargetFramework$(if ($Coverage) {" + Coverage"})"
+function Invoke-Test {
+    Write-Phase "Test$(if ($Coverage) {" + Coverage"})"
+    Remove-Item test\* -Exclude ReportGenerator.cmd -Recurse
     Invoke-DotNetExe -Arguments @(
-        if ($Coverage) {
-            $Directory = Get-Location | Split-Path -Leaf
-            "dotcover"
-                "--dcOutput=..\coverage\$Directory.$TargetFramework.dcvr"
-                "--dcFilters=+:$AssemblyNameRoot`;+:$AssemblyNameRoot.*`;-:*.Tests"
-                "--dcAttributeFilters=System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"
-        }
         "test"
-            "--framework:$TargetFramework"
-            "--configuration:$Configuration"
-            "--no-build"
+        "--no-build"
+        "--configuration:$Configuration"
+        if ($Coverage) {
+            "--settings:Coverlet.runsettings"
+            "--results-directory:test"
+        }
     )
 }
 
 function Export-CoverageReport {
     Write-Phase "Coverage Report"
-    $Snapshots = (Get-Item *.dcvr) -join ';'
-    Invoke-DotCoverExe merge  /Source=$Snapshots   /Output=Coverage.mrg
-    Invoke-DotCoverExe report /Source=Coverage.mrg /Output=Coverage.html /ReportType=HTML /HideAutoProperties
-    Invoke-DotCoverExe report /Source=Coverage.mrg /Output=Coverage.xml  /ReportType=XML  /HideAutoProperties
-    $Report   = [xml] (Get-Content Coverage.xml -Raw -Encoding UTF8)
-    $Coverage = [int] $Report.Root.CoveragePercent
-    $Color    = $(if ($Coverage -eq 100) {"Green"} else {"Red"})
-    Write-Host "`nCode Coverage: $Coverage%`n" -ForegroundColor $Color
+    Invoke-ReportGenerator -Arguments @(
+        "-reports:test\**\*.opencover.xml"
+        "-targetdir:coverage"
+        "-reporttypes:Cobertura;TeamCitySummary;Badges;HtmlInline_AzurePipelines_Dark"
+        "-verbosity:Warning"
+    )
 }
 
 function Invoke-DotNetExe {
@@ -118,24 +103,13 @@ function Invoke-DotNetExe {
     if ($LASTEXITCODE -ne 0) { throw "dotnet.exe exited with an error." }
 }
 
-function Invoke-DotCoverExe {
+function Invoke-ReportGenerator {
     param (
         [Parameter(Mandatory, ValueFromRemainingArguments)]
         [string[]] $Arguments
     )
-    $DotCoverExe = Resolve-NuGetPackageCache `
-        | Join-Path -Resolve -ChildPath jetbrains.dotcover.dotnetclitool\2019.3.0 `
-        | Join-Path -Resolve -ChildPath tools\dotCover.exe
-    & $DotCoverExe $Arguments
-    if ($LASTEXITCODE -ne 0) { throw "dotcover.exe exited with an error." }
-}
-
-function Resolve-NuGetPackageCache {
-    $Path = Invoke-DotNetExe nuget locals global-packages --list
-    # dotnet.exe returns package path in a format that must be split up:
-    #     info : global-packages: C:\Users\Foo\.nuget\packages\
-    #                             |-------desired--part-------|
-    ($Path -split ': ')[2]
+    & .\test\ReportGenerator.cmd $Arguments
+    if ($LASTEXITCODE -ne 0) { throw "ReportGenerator exited with an error." }
 }
 
 function Write-Phase {

@@ -27,20 +27,35 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="1.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="FluentAssertions" Version="5.9.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit.Extension.TeamCityEventListener" Version="1.0.7" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="JetBrains.dotCover.DotNetCliTool" Version="2019.3.0" />
+    <PackageReference Include="ReportGenerator" Version="4.3.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Sharp.Disposable\Sharp.Disposable.csproj" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <ReportGeneratorCommand>@"$(PkgReportGenerator)\tools\netcoreapp3.0\ReportGenerator.exe" %*
+    </ReportGeneratorCommand>
+  </PropertyGroup>
+
+  <Target Name="WriteReportGeneratorCmd"
+          AfterTargets="CopyFilesToOutputDirectory"
+          Condition="'$(TargetFramework)' == 'net48'">
+    <WriteLinesToFile File="..\test\ReportGenerator.cmd"
+                      Lines="$(ReportGeneratorCommand)"
+                      Overwrite="true"
+                      WriteOnlyWhenDifferent="true" />
+  </Target>
 
 </Project>

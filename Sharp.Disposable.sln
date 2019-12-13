@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{29B0BDB4
 		.gitignore = .gitignore
 		azure-pipelines.yml = azure-pipelines.yml
 		CHANGES.md = CHANGES.md
+		Coverlet.runsettings = Coverlet.runsettings
 		General.props = General.props
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
 		InheritDoc.targets = InheritDoc.targets
