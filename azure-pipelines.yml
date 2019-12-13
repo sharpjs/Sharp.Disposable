@@ -65,3 +65,4 @@ steps:
     nuGetFeedType: internal
     publishVstsFeed: 3b77dcda-0977-4777-b897-54aec427b170
     verbosityPush: Normal
+    allowPackageConflicts: true
