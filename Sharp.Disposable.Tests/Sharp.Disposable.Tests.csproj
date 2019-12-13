@@ -23,7 +23,7 @@
     <Description>Test suite for Sharp.Disposable</Description>
     <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
     <RootNamespace>Sharp.Disposable</RootNamespace>
-    <DocumentationFile></DocumentationFile>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -31,7 +31,7 @@ https://github.com/sharpjs/Sharp.Disposable/releases
 
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageOutputPath>..\dist\</PackageOutputPath>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
