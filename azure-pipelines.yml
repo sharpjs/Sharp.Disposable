@@ -1,19 +1,11 @@
 # Azure Pipeline
 # https://aka.ms/yaml
-#
-# stage -* job -* step~=task
-#   |-build
-#   |-release
-#
-# each job will run in parallel
 
 trigger:
 - master
 
 variables:
   configuration: Release
-  framework.netfx: net48
-  framework.netcore: netcoreapp3.1
 
   # Minimize first-time-run messages from dotnet CLI
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
@@ -22,49 +14,50 @@ variables:
   # Use own coverage report; do not generate a new one
   disable.coverage.autogenerate: 'true'
 
-displayName: Build + Test
-
-pool:
-  vmImage: windows-latest
-
-steps:
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    command: build
-    arguments: >
-      --configuration:$(configuration)
-
-- task: DotNetCoreCLI@2
-  displayName: Test
-  inputs:
-    command: test
-    nobuild: true
-    arguments: >
-      --configuration:$(configuration)
-      --settings:Coverlet.runsettings
-
-- task: reportgenerator@4
-  displayName: Create Coverage Report
-  inputs:
-    reports: $(Agent.TempDirectory)\**\*.opencover.xml
-    targetdir: $(Agent.TempDirectory)\coverage
-    reporttypes: Cobertura;Badges;HtmlInline_AzurePipelines_Dark
-
-- task: PublishCodeCoverageResults@1
-  displayName: Publish Coverage Report
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: $(Agent.TempDirectory)\coverage\Cobertura.xml
-    reportDirectory: $(Agent.TempDirectory)\coverage
-    failIfCoverageEmpty: true
-
-- task: NuGetCommand@2
-  displayName: Push NuGet Package
-  inputs:
-    command: push
-    packagesToPush: dist\*.nupkg
-    nuGetFeedType: internal
-    publishVstsFeed: 3b77dcda-0977-4777-b897-54aec427b170
-    verbosityPush: Normal
-    allowPackageConflicts: true
+jobs:
+- job: Build
+  displayName: Build + Test
+  pool:
+    vmImage: windows-latest
+  
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      arguments: >
+        --configuration:$(configuration)
+  
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      nobuild: true
+      arguments: >
+        --configuration:$(configuration)
+        --settings:Coverlet.runsettings
+  
+  - task: reportgenerator@4
+    displayName: Create Coverage Report
+    inputs:
+      reports: $(Agent.TempDirectory)\**\*.opencover.xml
+      targetdir: $(Agent.TempDirectory)\coverage
+      reporttypes: Cobertura;Badges;HtmlInline_AzurePipelines_Dark
+  
+  - task: PublishCodeCoverageResults@1
+    displayName: Publish Coverage Report
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: $(Agent.TempDirectory)\coverage\Cobertura.xml
+      reportDirectory: $(Agent.TempDirectory)\coverage
+      failIfCoverageEmpty: true
+  
+  - task: NuGetCommand@2
+    displayName: Push NuGet Package
+    inputs:
+      command: push
+      packagesToPush: dist\*.nupkg
+      nuGetFeedType: internal
+      publishVstsFeed: 3b77dcda-0977-4777-b897-54aec427b170
+      verbosityPush: Normal
+      allowPackageConflicts: true
