@@ -72,7 +72,7 @@ function Invoke-Build {
 
 function Invoke-Test {
     Write-Phase "Test$(if ($Coverage) {" + Coverage"})"
-    Remove-Item test\* -Exclude ReportGenerator.cmd -Recurse
+    Remove-Item test\* -Recurse
     Invoke-DotNetExe -Arguments @(
         "test"
         "--no-build"
@@ -86,7 +86,8 @@ function Invoke-Test {
 
 function Export-CoverageReport {
     Write-Phase "Coverage Report"
-    Invoke-ReportGenerator -Arguments @(
+    Invoke-DotNetExe -Arguments @(
+        "reportgenerator"
         "-reports:test\**\*.opencover.xml"
         "-targetdir:coverage"
         "-reporttypes:Cobertura;TeamCitySummary;Badges;HtmlInline_AzurePipelines_Dark"
@@ -101,15 +102,6 @@ function Invoke-DotNetExe {
     )
     & dotnet.exe $Arguments
     if ($LASTEXITCODE -ne 0) { throw "dotnet.exe exited with an error." }
-}
-
-function Invoke-ReportGenerator {
-    param (
-        [Parameter(Mandatory, ValueFromRemainingArguments)]
-        [string[]] $Arguments
-    )
-    & .\test\ReportGenerator.cmd $Arguments
-    if ($LASTEXITCODE -ne 0) { throw "ReportGenerator exited with an error." }
 }
 
 function Write-Phase {
