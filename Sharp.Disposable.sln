@@ -3,21 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{29B0BDB4-388D-469E-B1AE-104997287314}"
-	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		azure-pipelines.yml = azure-pipelines.yml
-		CHANGES.md = CHANGES.md
-		Coverlet.runsettings = Coverlet.runsettings
-		General.props = General.props
-		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
-		InheritDoc.targets = InheritDoc.targets
-		LICENSE.txt = LICENSE.txt
-		Make.ps1 = Make.ps1
-		README.md = README.md
-		Set-Version.ps1 = Set-Version.ps1
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = ".root", ".root.targets", "{B49C6656-E987-4177-A555-A1001863257F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharp.Disposable", "Sharp.Disposable\Sharp.Disposable.csproj", "{53D21B25-CB58-4893-B786-518FA762B1ED}"
 EndProject
@@ -29,6 +15,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B49C6656-E987-4177-A555-A1001863257F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B49C6656-E987-4177-A555-A1001863257F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B49C6656-E987-4177-A555-A1001863257F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B49C6656-E987-4177-A555-A1001863257F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53D21B25-CB58-4893-B786-518FA762B1ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{53D21B25-CB58-4893-B786-518FA762B1ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53D21B25-CB58-4893-B786-518FA762B1ED}.Release|Any CPU.ActiveCfg = Release|Any CPU

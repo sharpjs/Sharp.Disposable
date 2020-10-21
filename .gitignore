@@ -1,9 +1,9 @@
-# Build Products
+# Build products
 obj/
 bin/
-/test/
-/coverage/
 /dist/
+/coverage/
+/Stamp.props
 
 # Visual Studio
 .vs/
@@ -15,10 +15,7 @@ bin/
 *.vspx
 *.sap
 
-# Local Files
-/Local.props
-
-# Temporary Files
+# Temporary files
 *.log
 *.old
 *.tmp
@@ -28,9 +25,9 @@ bin/
 *.patch
 *.rej
 
-# Windows Junk
+# Windows junk
 Thumbs.db
 Desktop.ini
 
-# OS X Junk
+# macOS junk
 .DS_Store

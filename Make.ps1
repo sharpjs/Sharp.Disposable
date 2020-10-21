@@ -4,6 +4,20 @@
 
 .DESCRIPTION
     This script is similar to a makefile.
+
+    Copyright (C) 2020 Jeffrey Sharp
+
+    Permission to use, copy, modify, and distribute this software for any
+    purpose with or without fee is hereby granted, provided that the above
+    copyright notice and this permission notice appear in all copies.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #>
 [CmdletBinding(DefaultParameterSetName="Test")]
 param (
@@ -15,27 +29,25 @@ param (
     [Parameter(ParameterSetName="Test")]
     [switch] $Test,
 
-    # Build, run tests, and produce merged code coverage report.
+    # Build, run tests, produce code coverage report.
     [Parameter(Mandatory, ParameterSetName="Coverage")]
     [switch] $Coverage,
-
-    # Do not build or run tests.  Produce merged code coverage report only.
-    [Parameter(Mandatory, ParameterSetName="CoverageReportOnly")]
-    [switch] $CoverageReportOnly,
 
     # The configuration to build: Debug or Release.  The default is Debug.
     [Parameter(ParameterSetName="Build")]
     [Parameter(ParameterSetName="Test")]
     [Parameter(ParameterSetName="Coverage")]
     [ValidateSet("Debug", "Release")]
-    [string] $Configuration = "Debug"
+    [string] $Configuration = "Debug",
+
+    # Update .NET CLI 'local tool' plugins.
+    [Parameter(Mandatory, ParameterSetName="UpdateLocalTools")]
+    [switch] $UpdateLocalTools
 )
 
 #Requires -Version 5
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
-
-$AssemblyNameRoot = "Sharp.Disposable"
 
 $Command = $PSCmdlet.ParameterSetName
 if ($Command -eq "Test") { $Test = $true }
@@ -52,18 +64,26 @@ Write-Host -ForegroundColor Cyan @'
 '@
 
 function Main {
-    if (-not $CoverageReportOnly) {
-        Invoke-Build
+    if ($UpdateLocalTools) {
+        Update-LocalTools
+        return
     }
+
+    Invoke-Build
 
     if ($Test -or $Coverage) {
         Invoke-Test
     }
 
-    if ($Coverage -or $CoverageReportOnly) {
+    if ($Coverage) {
         Export-CoverageReport
     }
 } 
+
+function Update-LocalTools {
+    Write-Phase "Update Local Tools"
+    Invoke-DotNetExe tool update dotnet-reportgenerator-globaltool
+}
 
 function Invoke-Build {
     Write-Phase "Build"
@@ -72,25 +92,27 @@ function Invoke-Build {
 
 function Invoke-Test {
     Write-Phase "Test$(if ($Coverage) {" + Coverage"})"
-    Remove-Item test\* -Recurse
+    Remove-Item coverage\raw -Recurse -ErrorAction SilentlyContinue
     Invoke-DotNetExe -Arguments @(
         "test"
+        "--nologo"
         "--no-build"
         "--configuration:$Configuration"
         if ($Coverage) {
             "--settings:Coverlet.runsettings"
-            "--results-directory:test"
+            "--results-directory:coverage\raw"
         }
     )
 }
 
 function Export-CoverageReport {
     Write-Phase "Coverage Report"
+    Invoke-DotNetExe -Arguments "tool", "restore"
     Invoke-DotNetExe -Arguments @(
         "reportgenerator"
-        "-reports:test\**\*.opencover.xml"
+        "-reports:coverage\raw\**\coverage.opencover.xml"
         "-targetdir:coverage"
-        "-reporttypes:Cobertura;TeamCitySummary;Badges;HtmlInline_AzurePipelines_Dark"
+        "-reporttypes:Cobertura;HtmlInline_AzurePipelines_Dark;Badges;TeamCitySummary"
         "-verbosity:Warning"
     )
 }

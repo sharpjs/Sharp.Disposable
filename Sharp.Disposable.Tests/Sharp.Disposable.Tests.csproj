@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!--
-    Copyright (C) 2019 Jeffrey Sharp
+    Copyright (C) 2020 Jeffrey Sharp
 
     Permission to use, copy, modify, and distribute this software for any
     purpose with or without fee is hereby granted, provided that the above
@@ -16,15 +16,15 @@
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
   -->
 
-  <Import Project="..\General.props" />
-  <Import Project="..\Local.props" Condition="Exists('..\Local.props')" />
-
   <PropertyGroup>
     <Description>Test suite for Sharp.Disposable</Description>
     <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
     <RootNamespace>Sharp.Disposable</RootNamespace>
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sharp.Disposable\Sharp.Disposable.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="1.1.0">
@@ -38,17 +38,5 @@
     <PackageReference Include="NUnit.Extension.TeamCityEventListener" Version="1.0.7" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Sharp.Disposable\Sharp.Disposable.csproj" />
-  </ItemGroup>
-
-  <Target Name="LocalToolRestore" AfterTargets="CollectPackageReferences">
-    <Exec Command="dotnet tool restore"
-          WorkingDirectory="$(SolutionDir)"
-          StandardOutputImportance="Normal"
-          StandardErrorImportance="High"
-          LogStandardErrorAsError="true" />
-  </Target>
 
 </Project>
