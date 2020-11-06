@@ -9,12 +9,6 @@ bin/
 .vs/
 *.user
 
-# Visual Studio profiler
-*.psess
-*.vsp
-*.vspx
-*.sap
-
 # Temporary files
 *.log
 *.old

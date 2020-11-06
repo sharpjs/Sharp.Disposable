@@ -52,17 +52,6 @@ Set-StrictMode -Version Latest
 $Command = $PSCmdlet.ParameterSetName
 if ($Command -eq "Test") { $Test = $true }
 
-# http://patorjk.com/software/taag/#p=display&f=Slant
-Write-Host -ForegroundColor Cyan @' 
-
-       _____ __                       ____  _                             __    __   
-      / ___// /_  ____ __________    / __ \(_)________  ____  _________ _/ /_  / /__ 
-      \__ \/ __ \/ __ `/ ___/ __ \  / / / / / ___/ __ \/ __ \/ ___/ __ `/ __ \/ / _ \
-     ___/ / / / / /_/ / /  / /_/ / / /_/ / (__  ) /_/ / /_/ (__  ) /_/ / /_/ / /  __/
-    /____/_/ /_/\__,_/_/  / .___(_)_____/_/____/ .___/\____/____/\__,_/_.___/_/\___/ 
-                         /_/                  /_/                                    
-'@
-
 function Main {
     if ($UpdateLocalTools) {
         Update-LocalTools
