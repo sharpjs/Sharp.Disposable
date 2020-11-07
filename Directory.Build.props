@@ -42,7 +42,7 @@
   <!-- Build properties -->
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
-    <Nullable>disable<!--enable--></Nullable>
+    <Nullable>enable</Nullable>
     <GenerateDocumentationFile Condition="'$(IsPackable)' == 'true'">true</GenerateDocumentationFile>
   </PropertyGroup>
 

@@ -29,7 +29,7 @@ namespace Sharp.Disposable.Tests
         {
             var pool = new DisposablePool();
 
-            pool.Invoking(p => p.AddDisposable(null as IDisposable))
+            pool.Invoking(p => p.AddDisposable(default(IDisposable)!))
                 .Should().Throw<ArgumentNullException>();
         }
 

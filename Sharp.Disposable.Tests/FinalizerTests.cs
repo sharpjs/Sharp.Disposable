@@ -28,14 +28,14 @@ namespace Sharp.Disposable
         [Test]
         public void RunUntil_NullCondition()
         {
-            this.Invoking(_ => Finalizer.RunUntil(null))
+            this.Invoking(_ => Finalizer.RunUntil(null!))
                 .Should().Throw<ArgumentNullException>();
         }
 
         [Test]
         public void RunUntil_NullCondition_AnyInterval()
         {
-            this.Invoking(_ => Finalizer.RunUntil(null, 1.Seconds()))
+            this.Invoking(_ => Finalizer.RunUntil(null!, 1.Seconds()))
                 .Should().Throw<ArgumentNullException>();
         }
 
