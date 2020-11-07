@@ -29,7 +29,7 @@
     <VersionPrefix>1.1.0</VersionPrefix>
     <Authors>Jeffrey Sharp</Authors>
     <Company>Subatomix Research Inc.</Company>
-    <Copyright>Copyright $([System.DateTime]::UtcNow.Year) Jeffrey Sharp, Subatomix Research Inc.</Copyright>
+    <Copyright>ⓒ $([System.DateTime]::UtcNow.Year) Jeffrey Sharp, Subatomix Research Inc.</Copyright>
     <PackageLicenseExpression>ISC</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/sharpjs/Sharp.Disposable</PackageProjectUrl>
     <PackageTags>Dispose Disposable IDisposable</PackageTags>
