@@ -1,10 +1,16 @@
 # Sharp.Disposable
 
-Thread-safe implementation of the [.NET Dispose Pattern](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/dispose-pattern), plus extras.
+Thread-safe implementation of the [.NET Dispose Pattern](https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose), plus extras.
 
 ## Status
 
-In production.  100% test coverage.
+[![Build](https://github.com/sharpjs/Sharp.Disposable/workflows/Build/badge.svg)](https://github.com/sharpjs/Sharp.Disposable/actions)
+[![NuGet](https://img.shields.io/nuget/v/Sharp.Disposable.svg)](https://www.nuget.org/packages/Sharp.Disposable)
+[![NuGet](https://img.shields.io/nuget/dt/Sharp.Disposable.svg)](https://www.nuget.org/packages/Sharp.Disposable)
+
+- **Stable:**     in production for years with no reported defects.
+- **Tested:**     100% coverage by automated tests.
+- **Documented:** IntelliSense on everything.
 
 ## Overview
 
@@ -32,18 +38,18 @@ public class Foo : Disposable
     {
         // Check if already disposed
         if (!base.Dispose(managed))
+            // False means nothing happened because already disposed
             return false;
 
         // Clean up unmanaged resources (like temp files) here
         DeleteTemporaryFiles();
 
-        // Check if doing unmanaged disposal only
-        if (!managed)
-            return true;
+        // Check if doing managed disposal too
+        if (managed)
+            // Disposed managed resources (other IDisposables) here
+            _bar.Dispose();
 
-        // Disposed managed resources (other IDisposables) here
-        _bar.Dispose();
-
+        // True means disposal happened
         return true;
     }
 }
