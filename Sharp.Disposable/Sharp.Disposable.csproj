@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!--
-    Copyright 2020 Jeffrey Sharp
+    Copyright 2022 Jeffrey Sharp
 
     Permission to use, copy, modify, and distribute this software for any
     purpose with or without fee is hereby granted, provided that the above
@@ -18,7 +18,7 @@
 
   <PropertyGroup>
     <Description>Thread-safe implementation of the .NET Dispose Pattern</Description>
-    <TargetFrameworks>netstandard2.0;netstandard1.1;net45</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
 </Project>
