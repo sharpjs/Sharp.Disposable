@@ -14,6 +14,7 @@ No unreleased changes.
 - Add reference nullability tracking.
 - Fix packaging issues:
   - Enable deterministic build.
+  - Embed untracked sources in symbols package.
 
 ## [1.0.0](https://github.com/sharpjs/Sharp.Disposable/tree/v1.0.0)
 Initial release.
