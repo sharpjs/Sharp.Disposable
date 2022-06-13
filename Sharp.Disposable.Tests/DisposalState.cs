@@ -1,5 +1,5 @@
 /*
-    Copyright 2020 Jeffrey Sharp
+    Copyright 2022 Jeffrey Sharp
 
     Permission to use, copy, modify, and distribute this software for any
     purpose with or without fee is hereby granted, provided that the above
@@ -14,17 +14,16 @@
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-namespace Sharp.Disposable.Tests
-{
-    internal class DisposalState
-    {
-        public bool IsDisposed  { get; private set; }
-        public bool IsFinalized { get; private set; }
+namespace Sharp.Disposable.Tests;
 
-        public void MarkDisposed(bool managed)
-        {
-            IsDisposed  = true;
-            IsFinalized = !managed;
-        }
+internal class DisposalState
+{
+    public bool IsDisposed  { get; private set; }
+    public bool IsFinalized { get; private set; }
+
+    public void MarkDisposed(bool managed)
+    {
+        IsDisposed  = true;
+        IsFinalized = !managed;
     }
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright 2020 Jeffrey Sharp
+    Copyright 2022 Jeffrey Sharp
 
     Permission to use, copy, modify, and distribute this software for any
     purpose with or without fee is hereby granted, provided that the above
@@ -14,89 +14,84 @@
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-using System;
-using FluentAssertions;
-using NUnit.Framework;
+namespace Sharp.Disposable.Tests;
 
-namespace Sharp.Disposable.Tests
+[TestFixture]
+public class DisposableTests
 {
-    [TestFixture]
-    public class DisposableTests
+    [Test]
+    public void Dispose()
     {
-        [Test]
-        public void Dispose()
-        {
-            var obj   = new TestDisposable();
-            var state = obj.DisposalState;
+        var obj   = new TestDisposable();
+        var state = obj.DisposalState;
 
-            state.IsDisposed.Should().BeFalse();
+        state.IsDisposed.Should().BeFalse();
 
-            obj.Dispose();
+        obj.Dispose();
 
-            state.IsDisposed .Should().BeTrue();
-            state.IsFinalized.Should().BeFalse();
-        }
+        state.IsDisposed .Should().BeTrue();
+        state.IsFinalized.Should().BeFalse();
+    }
 
-        [Test]
-        public void Dispose_Multiple()
-        {
-            var obj   = new TestDisposable();
-            var state = obj.DisposalState;
+    [Test]
+    public void Dispose_Multiple()
+    {
+        var obj   = new TestDisposable();
+        var state = obj.DisposalState;
 
-            state.IsDisposed.Should().BeFalse();
+        state.IsDisposed.Should().BeFalse();
 
-            obj.Dispose();
-            obj.Dispose();
+        obj.Dispose();
+        obj.Dispose();
 
-            state.IsDisposed .Should().BeTrue();
-            state.IsFinalized.Should().BeFalse();
-        }
+        state.IsDisposed .Should().BeTrue();
+        state.IsFinalized.Should().BeFalse();
+    }
 
-        [Test]
-        public void FinalizeMethod()
-        {
-            var state = TestDisposable.CreateFinalizable();
+    [Test]
+    public void FinalizeMethod()
+    {
+        var state = TestDisposable.CreateFinalizable();
 
-            Finalizer.RunUntil(() => state.IsDisposed);
+        Finalizer.RunUntil(() => state.IsDisposed);
 
-            state.IsFinalized.Should().BeTrue();
-        }
+        state.IsFinalized.Should().BeTrue();
+    }
 
-        [Test]
-        public void IsDisposed_False()
-        {
-            var obj = new TestDisposable();
+    [Test]
+    public void IsDisposed_False()
+    {
+        var obj = new TestDisposable();
 
-            obj.IsDisposed.Should().BeFalse();
-        }
+        obj.IsDisposed.Should().BeFalse();
+    }
 
-        [Test]
-        public void IsDisposed_True()
-        {
-            var obj = new TestDisposable();
+    [Test]
+    public void IsDisposed_True()
+    {
+        var obj = new TestDisposable();
 
-            obj.Dispose();
+        obj.Dispose();
 
-            obj.IsDisposed.Should().BeTrue();
-        }
+        obj.IsDisposed.Should().BeTrue();
+    }
 
-        [Test]
-        public void RequireNotDisposed_Ok()
-        {
-            var obj = new TestDisposable();
+    [Test]
+    public void RequireNotDisposed_Ok()
+    {
+        var obj = new TestDisposable();
 
-            obj.RequireNotDisposed();
-        }
+        obj.RequireNotDisposed();
+    }
 
-        [Test]
-        public void RequireNotDisposed_Throw()
-        {
-            var obj = new TestDisposable();
+    [Test]
+    public void RequireNotDisposed_Throw()
+    {
+        var obj = new TestDisposable();
 
-            obj.Dispose();
+        obj.Dispose();
 
-            obj.Invoking(o => o.RequireNotDisposed())
-                .Should().Throw<ObjectDisposedException>();
-        }
+        obj.Invoking(o => o.RequireNotDisposed())
+            .Should().Throw<ObjectDisposedException>();
     }
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright 2020 Jeffrey Sharp
+    Copyright 2022 Jeffrey Sharp
 
     Permission to use, copy, modify, and distribute this software for any
     purpose with or without fee is hereby granted, provided that the above
@@ -14,32 +14,29 @@
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-using System;
+namespace Sharp.Disposable.Tests;
 
-namespace Sharp.Disposable.Tests
+internal class TestDisposable : Disposable
 {
-    internal class TestDisposable : Disposable
+    public DisposalState DisposalState { get; } = new DisposalState();
+
+    public static DisposalState CreateFinalizable()
     {
-        public DisposalState DisposalState { get; } = new DisposalState();
+        var obj = new TestDisposable();
+        return obj.DisposalState;
+    }
 
-        public static DisposalState CreateFinalizable()
-        {
-            var obj = new TestDisposable();
-            return obj.DisposalState;
-        }
+    public new void RequireNotDisposed()
+    {
+        base.RequireNotDisposed();
+    }
 
-        public new void RequireNotDisposed()
-        {
-            base.RequireNotDisposed();
-        }
+    protected override bool Dispose(bool managed)
+    {
+        if (!base.Dispose(managed))
+            return false;
 
-        protected override bool Dispose(bool managed)
-        {
-            if (!base.Dispose(managed))
-                return false;
-
-            DisposalState.MarkDisposed(managed);
-            return true;
-        }
+        DisposalState.MarkDisposed(managed);
+        return true;
     }
 }
