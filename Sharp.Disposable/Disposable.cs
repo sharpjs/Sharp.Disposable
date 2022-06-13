@@ -17,7 +17,6 @@
 namespace Sharp.Disposable;
 
 // A complete implementation .NET IDisposable pattern
-// https://msdn.microsoft.com/en-us/library/b1yfkh5e(v=vs.110).aspx
 //
 // Covers:
 //   - Managed resources (i.e. other IDisposables)
@@ -26,7 +25,7 @@ namespace Sharp.Disposable;
 //   - IsDisposed property
 //
 // For further guidance, see:
-// https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/dispose-pattern
+// https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose
 
 /// <summary>
 ///   An object that owns managed and/or unmanaged resources needing disposal.
