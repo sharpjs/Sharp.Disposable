@@ -19,17 +19,17 @@ using System.Collections.Concurrent;
 namespace Sharp.Disposable;
 
 // For guidance, see:
-// https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/dispose-pattern
+// https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose
 
 /// <summary>
-///   A pool that can own multiple disposable objects, disposing them when
-///   the pool itself is disposed.
+///   A pool that can own multiple disposable objects, disposing them when the
+///   pool itself is disposed.
 /// </summary>
 /// <remarks>
 ///   <para>
-///     Note that a <see cref="DisposablePool"/> references its 'owned'
-///     objects by weak references.  Because of this, pool ownership of an
-///     object does not prevent that object from being reclaimed (and thus
+///     <strong>NOTE:</strong> a <see cref="DisposablePool"/> references its
+///     'owned' objects by weak references.  Because of this, pool ownership of
+///     an object does not prevent that object from being reclaimed (and thus
 ///     disposed) by the garbage collector.  To prevent garbage collection,
 ///     there must be some other reference to that object.
 ///   </para>
@@ -43,8 +43,8 @@ public class DisposablePool : Disposable
         _disposables = new ConcurrentBag<WeakReference<IDisposable>>();
 
     /// <summary>
-    ///   Registers the specified object to be disposed when the pool
-    ///   itself is disposed.
+    ///   Registers the specified object to be disposed when the pool itself is
+    ///   disposed.
     /// </summary>
     /// <typeparam name="T">
     ///   The type of <paramref name="obj"/>.

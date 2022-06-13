@@ -72,8 +72,10 @@ public abstract class Disposable : IDisposable
     ///   (in addition to unmanaged resources, which are always disposed).
     /// </param>
     /// <returns>
-    ///   <c>true</c> if the object transitioned from not-disposed to disposed,
-    ///   <c>false</c> if the object was disposed already.
+    ///   <see langword="true"/>
+    ///     if the object transitioned from not-disposed to disposed;
+    ///   <see langword="false"/>
+    ///     if the object was disposed already.
     /// </returns>
     protected virtual bool Dispose(bool managed = true)
     {

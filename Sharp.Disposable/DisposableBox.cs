@@ -30,25 +30,25 @@ public class DisposableBox<T> : Disposable
     private bool _owned;
 
     /// <summary>
-    ///   Initializes a new instance of <see cref="DisposableBox{T}"/>
-    ///   holding a <c>null</c> reference.
+    ///   Initializes a new instance of <see cref="DisposableBox{T}"/> holding
+    ///   a <see langword="null"/> reference.
     /// </summary>
     public DisposableBox() { }
 
     /// <summary>
-    ///   Initializes a new instance of <see cref="DisposableBox{T}"/>
-    ///   holding the specified reference with the specified ownership.
+    ///   Initializes a new instance of <see cref="DisposableBox{T}"/> holding
+    ///   the specified reference with the specified ownership.
     /// </summary>
     /// <param name="obj">
-    ///   The object or <c>null</c> reference to be held in the box.
+    ///   The object or <see langword="null"/> reference to be held in the box.
     /// </param>
     /// <param name="owned">
-    ///   <c>true</c> if the box will own <paramref name="obj"/> and will
-    ///     be responsible for its disposal;
-    ///   <c>false</c> if some other object owns <paramref name="obj"/>
+    ///   <see langword="true"/> if the box will own <paramref name="obj"/> and
+    ///     will be responsible for its disposal;
+    ///   <see langword="false"/> if some other object owns <paramref name="obj"/>
     ///     and is responsible for its disposal.
-    ///   If <paramref name="obj"/> is <c>null</c>, this parameter is
-    ///     ignored; the box never owns a <c>null</c> reference.
+    ///   If <paramref name="obj"/> is <see langword="null"/>, this parameter
+    ///     is ignored; the box never owns a <see langword="null"/> reference.
     /// </param>
     public DisposableBox(T? obj, bool owned = true)
     {
@@ -56,7 +56,7 @@ public class DisposableBox<T> : Disposable
     }
 
     /// <summary>
-    ///   Gets the object or <c>null</c> reference held in the box.
+    ///   Gets the object or <see langword="null"/> reference held in the box.
     /// </summary>
     public T? Object
     {
@@ -65,9 +65,9 @@ public class DisposableBox<T> : Disposable
 
     /// <summary>
     ///   Gets whether the object held in the box is owned by the box.  If
-    ///   <c>true</c>, then <see cref="Object"/> is non-<c>null</c> and
-    ///   will be disposed when the box itself is disposed.  Otherwise,
-    ///   this property is <c>false</c>.
+    ///   <see langword="true"/>, then <see cref="Object"/> is not
+    ///   <see langword="null"/> and will be disposed when the box itself is
+    ///   disposed.  Otherwise, this property is <see langword="false"/>.
     /// </summary>
     public bool IsOwned
     {
@@ -75,20 +75,20 @@ public class DisposableBox<T> : Disposable
     }
 
     /// <summary>
-    ///   Sets the object or <c>null</c> reference held in the box and the
-    ///   object's ownership.  If the box currenty owns a different object,
-    ///   that object will be disposed.
+    ///   Sets the object or <see langword="null"/> reference held in the box
+    ///   and the object's ownership.  If the box currenty owns a different
+    ///   object, that object will be disposed.
     /// </summary>
     /// <param name="obj">
-    ///   The object or <c>null</c> reference to be held in the box.
+    ///   The object or <see langword="null"/> reference to be held in the box.
     /// </param>
     /// <param name="owned">
-    ///   <c>true</c> if the box will own <paramref name="obj"/> and will
-    ///     be responsible for its disposal;
-    ///   <c>false</c> if some other object owns <paramref name="obj"/>
+    ///   <see langword="true"/> if the box will own <paramref name="obj"/> and
+    ///     will be responsible for its disposal;
+    ///   <see langword="false"/> if some other object owns <paramref name="obj"/>
     ///     and is responsible for its disposal.
-    ///   If <paramref name="obj"/> is <c>null</c>, this parameter is
-    ///     ignored; the box never owns a <c>null</c> reference.
+    ///   If <paramref name="obj"/> is <see langword="null"/>, this parameter
+    ///     is ignored; the box never owns a <see langword="null"/> reference.
     /// </param>
     /// <returns>
     ///   The <paramref name="obj"/> argument.
@@ -111,11 +111,11 @@ public class DisposableBox<T> : Disposable
     }
 
     /// <summary>
-    ///   Sets the reference held in the box to <c>null</c>.  If the box
-    ///   currently owns an object, the object will be disposed.  When this
-    ///   method returns, 
-    ///     <see cref="Object"/>  is <c>null</c> and
-    ///     <see cref="IsOwned"/> is <c>false</c>.
+    ///   Sets the reference held in the box to <see langword="null"/>.  If the
+    ///   box currently owns an object, the object will be disposed.  When this
+    ///   method returns,
+    ///     <see cref="Object"/>  is <see langword="null"/> and
+    ///     <see cref="IsOwned"/> is <see langword="false"/>.
     /// </summary>
     public void Clear()
     {
@@ -123,13 +123,13 @@ public class DisposableBox<T> : Disposable
     }
 
     /// <summary>
-    ///   Sets the reference held in the box to <c>null</c> and returns the
-    ///   object or <c>null</c> reference currently held in the box.  If
-    ///   the box currently owns an object, the caller assumes ownership of
-    ///   the object and becomes responsible for the object's disposal.
-    ///   When this method returns, 
-    ///     <see cref="Object"/>  is <c>null</c> and
-    ///     <see cref="IsOwned"/> is <c>false</c>.
+    ///   Sets the reference held in the box to <see langword="null"/> and
+    ///   returns the object or <see langword="null"/> reference currently held
+    ///   in the box.  If the box currently owns an object, the caller assumes
+    ///   ownership of the object and becomes responsible for the object's
+    ///   disposal.  When this method returns,
+    ///     <see cref="Object"/>  is <see langword="null"/> and
+    ///     <see cref="IsOwned"/> is <see langword="false"/>.
     /// </summary>
     public T? Take()
     {

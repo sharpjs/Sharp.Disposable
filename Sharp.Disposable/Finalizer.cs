@@ -44,15 +44,16 @@ public static class Finalizer
     }
 
     /// <summary>
-    ///   Performs blocking garbage collections of all generations at a
-    ///   short preset interval, until the specified condition delegate
-    ///   returns <c>true</c>.
+    ///   Performs blocking garbage collections of all generations at a short
+    ///   preset interval, until the specified condition delegate returns
+    ///   <see langword="true"/>.
     /// </summary>
     /// <param name="condition">
-    ///   A delegate that returns <c>true</c> when this method should return.
+    ///   A delegate that returns <see langword="true"/> when this method
+    ///   should return.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    ///   <paramref name="condition"/> is <c>null</c>.
+    ///   <paramref name="condition"/> is <see langword="null"/>.
     /// </exception>
     public static void RunUntil(Func<bool> condition)
     {
@@ -60,18 +61,19 @@ public static class Finalizer
     }
 
     /// <summary>
-    ///   Performs blocking garbage collections of all generations at the
-    ///   given interval, until the specified condition delegate returns
-    ///   <c>true</c>.
+    ///   Performs blocking garbage collections of all generations at the given
+    ///   interval, until the specified condition delegate returns
+    ///   <see langword="true"/>.
     /// </summary>
     /// <param name="condition">
-    ///   A delegate that returns <c>true</c> when this method should return.
+    ///   A delegate that returns <see langword="true"/> when this method
+    ///   should return.
     /// </param>
     /// <param name="interval">
     ///   The interval at which to perform garbage collections.
     /// </param>
     /// <exception cref="ArgumentNullException">
-    ///   <paramref name="condition"/> is <c>null</c>.
+    ///   <paramref name="condition"/> is <see langword="null"/>.
     /// </exception>
     /// <exception cref="ArgumentOutOfRangeException">
     ///   <paramref name="interval"/> is negative.
