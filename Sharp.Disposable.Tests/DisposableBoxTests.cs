@@ -465,4 +465,32 @@ public class DisposableBoxTests
 
         obj.IsDisposed.Should().BeFalse();
     }
+
+    [Test]
+    public void Finalize_Owned()
+    {
+        var obj = new TestDisposable();
+        var box = new DisposableBox<TestDisposable>(obj);
+
+        box.DisposeUnmanaged();
+
+        box.Invoking(b => { var _ = b.Object;  }).Should().Throw<ObjectDisposedException>();
+        box.Invoking(b => { var _ = b.IsOwned; }).Should().Throw<ObjectDisposedException>();
+
+        obj.IsDisposed.Should().BeFalse();
+    }
+
+    [Test]
+    public void Finalize_NotOwned()
+    {
+        var obj = new TestDisposable();
+        var box = new DisposableBox<TestDisposable>(obj, owned: false);
+
+        box.DisposeUnmanaged();
+
+        box.Invoking(b => { var _ = b.Object;  }).Should().Throw<ObjectDisposedException>();
+        box.Invoking(b => { var _ = b.IsOwned; }).Should().Throw<ObjectDisposedException>();
+
+        obj.IsDisposed.Should().BeFalse();
+    }
 }
