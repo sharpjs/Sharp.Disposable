@@ -10,6 +10,7 @@ No unreleased changes.
 -->
 
 ## [1.1.1](https://github.com/sharpjs/Sharp.Disposable/compare/v1.1.0...release/1.1.1)
+- Fix missing IntelliSense documentation.
 
 ## [1.1.0](https://github.com/sharpjs/Sharp.Disposable/compare/v1.0.0...release/1.1.0)
 - Add target framework: .NET Standard 2.0.

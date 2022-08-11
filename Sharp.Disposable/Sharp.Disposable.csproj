@@ -19,6 +19,7 @@
   <PropertyGroup>
     <Description>Thread-safe implementation of the .NET Dispose Pattern</Description>
     <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
 </Project>
